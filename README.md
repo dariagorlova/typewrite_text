@@ -1,22 +1,20 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# typewrite_text
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages).
+[![pub package](https://img.shields.io/pub/v/typewrite_text.svg?logo=flutter&color=blue&style=flat-square)](https://pub.dev/packages/typewrite_text)
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages).
--->
+A typewriter text animation wrapper with customizations. Supports iOS, Android, web, Windows, macOS, and Linux.
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+## Motivation
+
+While creating a website for myself, I decided to embellish it with a small yet striking text animation to give it extra allure. This little detail not only added beauty to my site but also brought dynamism, making it stand out among others. While there **are** some packages that offer almost what I need, they **weren't quite sufficient** for my vision.
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+- Allows to set up different delays for forward and reverse animation.
+- Allows to set up different delays before animation starts and after animation ends.
+- Can be used just in "forward" mode.
+- Can be used with or without animated text cursor.
+- Allows to set up text theme.
 
 ## Getting started
 
@@ -25,15 +23,38 @@ start using the package.
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+Basic animation. Just add text line(s) and specify text theme:
 
 ```dart
-const like = 'sample';
+TypewriteText(
+  linesOfText: ['Hello World', 'Hello Flutter', 'Hello Dart'],
+  textStyle: TextStyle(color: Colors.red),
+),
 ```
 
-## Additional information
+One side animation without showing animated text cursor:
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+```dart
+TypewriteText(
+  linesOfText: ['Hello World', 'Hello Flutter', 'Hello Dart'],
+  textStyle: TextStyle(color: Colors.blue, fontSize: 20, fontWeight: FontWeight.bold),
+  reverseAnimationDuration: Duration.zero,
+  beforeAnimationDuration: Duration.zero,
+  needCursor: false,
+)
+```
+
+![](demo/package.gif){ width: 500px; }
+
+## Documentation
+
+| Property                 | Purpose                                         |
+|--------------------------|-------------------------------------------------|
+| **linesOfText**          | List of strings to be shown.                    |
+| **textStyle**            | TextStyle for this strings.                     |
+| forwardAnimationDuration | The rate of a symbol appears                    |
+| reverseAnimationDuration | The rate of a symbol vanishes.                  |
+| beforeAnimationDuration  | The interval before the symbols' initial appearance. |
+| afterAnimationDuration   | The pause following the display of all symbols. |
+| needCursor               | If you need an animated cursor, set `true` otherwise - `false`. |
+| cursorColor              | Color of the animated text cursor.              |
