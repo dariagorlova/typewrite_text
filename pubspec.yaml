@@ -1,0 +1,21 @@
+name: typewrite_text
+description: A typewriter text animation wrapper with customizations. Supports iOS, Android, web, Windows, macOS, and Linux.
+version: 0.0.1
+homepage: https://dariahorlova.netlify.app
+repository: https://github.com/dariahorlova/typewrite_text
+issue_tracker: https://github.com/dariahorlova/typewrite_text/issues
+
+environment:
+  sdk: '>=3.3.4 <4.0.0'
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
