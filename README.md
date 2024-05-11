@@ -44,7 +44,7 @@ TypewriteText(
 )
 ```
 
-![](demo/package.gif =500x)
+![](demo/package.gif)
 
 ## Documentation
 
