@@ -16,11 +16,6 @@ While creating a website for myself, I decided to embellish it with a small yet 
 - Can be used with or without animated text cursor.
 - Allows to set up text theme.
 
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
-
 ## Usage
 
 Basic animation. Just add text line(s) and specify text theme:
@@ -48,13 +43,13 @@ TypewriteText(
 
 ## Documentation
 
-| Property                 | Purpose                                         |
-|--------------------------|-------------------------------------------------|
-| **linesOfText**          | List of strings to be shown.                    |
-| **textStyle**            | TextStyle for this strings.                     |
-| forwardAnimationDuration | The rate of a symbol appears                    |
-| reverseAnimationDuration | The rate of a symbol vanishes.                  |
-| beforeAnimationDuration  | The interval before the symbols' initial appearance. |
-| afterAnimationDuration   | The pause following the display of all symbols. |
+| Property                 | Purpose                                                         |
+| ------------------------ | --------------------------------------------------------------- |
+| **linesOfText**          | List of strings to be shown.                                    |
+| **textStyle**            | TextStyle for this strings.                                     |
+| forwardAnimationDuration | The rate of a symbol appears.                                   |
+| reverseAnimationDuration | The rate of a symbol vanishes.                                  |
+| beforeAnimationDuration  | The interval before the symbols' initial appearance.            |
+| afterAnimationDuration   | The pause following the display of all symbols.                 |
 | needCursor               | If you need an animated cursor, set `true` otherwise - `false`. |
-| cursorColor              | Color of the animated text cursor.              |
+| cursorColor              | Color of the animated text cursor.                              |

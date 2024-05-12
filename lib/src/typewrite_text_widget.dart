@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 class TypewriteText extends StatefulWidget {
+  /// A typewriter text animation wrapper with customizations
   const TypewriteText({
     required this.linesOfText,
     required this.textStyle,
@@ -15,13 +16,28 @@ class TypewriteText extends StatefulWidget {
     super.key,
   });
 
+  /// List of strings to be shown
   final List<String> linesOfText;
+
+  /// TextStyle for this strings
   final TextStyle textStyle;
+
+  /// The rate of a symbol appears
   final Duration forwardAnimationDuration;
+
+  /// The rate of a symbol vanishes
   final Duration reverseAnimationDuration;
+
+  /// The interval before the symbols' initial appearance
   final Duration beforeAnimationDuration;
+
+  /// The pause following the display of all symbols
   final Duration afterAnimationDuration;
+
+  /// Whether or not to display a cursor
   final bool needCursor;
+
+  /// Color of the animated text cursor
   final Color? cursorColor;
 
   @override
@@ -29,29 +45,22 @@ class TypewriteText extends StatefulWidget {
 }
 
 class _TypewriteTextState extends State<TypewriteText> {
+  /// string index
   var _currentIndex = 0;
+
+  /// char index for widget.linesOfText[_currentIndex]
   var _currentCharIndex = 0;
+
+  /// reverse mode flag
   var _reverseMode = false;
+
+  /// timer for cursor
   Timer? _timer;
+
+  /// cursor visibility flag
   var _cursorVisible = false;
 
   /// Performs the typewriting animation.
-  ///
-  /// This function is responsible for animating the typing effect of the text.
-  /// It continuously updates the index of the current character being typed and
-  /// handles the logic for reversing the animation.
-  ///
-  /// The animation starts in the forward mode and progresses until all the characters
-  /// of the current line are typed. Once all the characters are typed, the animation
-  /// transitions to the reverse mode. In the reverse mode, the animation goes back
-  /// to the previous line and types the characters in reverse order.
-  ///
-  /// This function is called recursively using a delayed Future to create the
-  /// illusion of continuous typing.
-  ///
-  /// This function does not take any parameters.
-  ///
-  /// This function does not return any value.
   void _typeWrittingAnimation() async {
     if (_reverseMode) {
       if (_currentCharIndex > 0) {
@@ -70,10 +79,15 @@ class _TypewriteTextState extends State<TypewriteText> {
         await Future.delayed(widget.afterAnimationDuration, () {});
       }
     }
-    if (mounted) {
+    final curDuration = _reverseMode
+        ? widget.reverseAnimationDuration
+        : widget.forwardAnimationDuration;
+
+    /// update the state only if we need it (oneside animation feature)
+    if (mounted && curDuration != Duration.zero) {
       setState(() {});
     }
-    Future.delayed(_reverseMode ? widget.reverseAnimationDuration : widget.forwardAnimationDuration, () {
+    Future.delayed(curDuration, () {
       _typeWrittingAnimation();
     });
   }
@@ -102,17 +116,10 @@ class _TypewriteTextState extends State<TypewriteText> {
   @override
 
   /// Builds a [RichText] widget that displays the current line of text being typed.
-  ///
-  /// The text being displayed is determined by the current index of the line and the current index of the character.
-  /// If the current index of the character is greater than or equal to the length of the current line, an empty string is displayed.
-  ///
-  /// The text is displayed with the provided [TextStyle] and includes a cursor that blinks on and off.
-  /// The cursor color is determined by the [cursorColor] property of the widget, or the color of the text style if not provided.
-  ///
-  /// Returns a [RichText] widget.
   Widget build(BuildContext context) {
-    final text =
-        widget.linesOfText[_currentIndex].length >= _currentCharIndex ? widget.linesOfText[_currentIndex].substring(0, _currentCharIndex) : '';
+    final text = widget.linesOfText[_currentIndex].length >= _currentCharIndex
+        ? widget.linesOfText[_currentIndex].substring(0, _currentCharIndex)
+        : '';
     return RichText(
       text: TextSpan(
         text: text,
@@ -123,7 +130,8 @@ class _TypewriteTextState extends State<TypewriteText> {
             style: widget.textStyle.copyWith(
               fontSize: widget.textStyle.fontSize ?? 14,
               fontWeight: FontWeight.normal,
-              color: widget.cursorColor ?? widget.textStyle.color ?? Colors.black,
+              color:
+                  widget.cursorColor ?? widget.textStyle.color ?? Colors.black,
             ),
           ),
         ],

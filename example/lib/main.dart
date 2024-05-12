@@ -41,7 +41,10 @@ class TextPackageApp extends StatelessWidget {
                 /// oneside animation (without reverse animation)
                 TypewriteText(
                   linesOfText: list1,
-                  textStyle: TextStyle(color: Colors.blue, fontSize: 20, fontWeight: FontWeight.bold),
+                  textStyle: TextStyle(
+                      color: Colors.blue,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
                   reverseAnimationDuration: Duration.zero,
                   beforeAnimationDuration: Duration.zero,
                   needCursor: false,
