@@ -57,11 +57,14 @@ class _TypewriteTextState extends State<TypewriteText> {
   /// timer for cursor
   Timer? _timer;
 
+  /// timer for animation
+  Timer? _animationTimer;
+
   /// cursor visibility flag
   var _cursorVisible = false;
 
   /// Performs the typewriting animation.
-  void _typeWrittingAnimation() async {
+  void _typeWrittingAnimation() {
     if (_reverseMode) {
       if (_currentCharIndex > 0) {
         _currentCharIndex--;
@@ -69,31 +72,47 @@ class _TypewriteTextState extends State<TypewriteText> {
         _reverseMode = false;
         _currentIndex = (_currentIndex + 1) % widget.linesOfText.length;
         _currentCharIndex = 0;
-        await Future.delayed(widget.beforeAnimationDuration, () {});
       }
     } else {
       if (_currentCharIndex < widget.linesOfText[_currentIndex].length) {
         _currentCharIndex++;
       } else {
         _reverseMode = true;
-        await Future.delayed(widget.afterAnimationDuration, () {});
       }
     }
-    final curDuration = _reverseMode
-        ? widget.reverseAnimationDuration
-        : widget.forwardAnimationDuration;
 
-    /// update the state only if we need it (oneside animation feature)
+    /// here we need to know delay for next _typeWrittingAnimation launch
+    /// default value is "forward"
+    var curDuration = widget.forwardAnimationDuration;
+
+    /// but it could be...
+    if (_reverseMode) {
+      /// ..."afterAnimation"
+      if (_currentCharIndex == widget.linesOfText[_currentIndex].length) {
+        curDuration = widget.afterAnimationDuration;
+      } else {
+        /// ... or "reverse"
+        curDuration = widget.reverseAnimationDuration;
+      }
+    } else {
+      /// ... or "beforeAnimation"
+      if (_currentCharIndex == 0) {
+        curDuration = widget.beforeAnimationDuration;
+      }
+    }
+
     if (mounted && curDuration != Duration.zero) {
       setState(() {});
     }
-    Future.delayed(curDuration, () {
+
+    _animationTimer = Timer(curDuration, () {
       _typeWrittingAnimation();
     });
   }
 
   @override
-  // Initializes the state of the widget.
+
+  /// Initializes the state of the widget.
   void initState() {
     super.initState();
     if (widget.needCursor) {
@@ -107,9 +126,11 @@ class _TypewriteTextState extends State<TypewriteText> {
   }
 
   @override
-  // Disposes of the resources used by the state.
+
+  /// Disposes of the resources used by the state.
   void dispose() {
     _timer?.cancel();
+    _animationTimer?.cancel();
     super.dispose();
   }
 
@@ -120,13 +141,14 @@ class _TypewriteTextState extends State<TypewriteText> {
     final text = widget.linesOfText[_currentIndex].length >= _currentCharIndex
         ? widget.linesOfText[_currentIndex].substring(0, _currentCharIndex)
         : '';
+
     return RichText(
       text: TextSpan(
         text: text,
         style: widget.textStyle,
         children: <TextSpan>[
           TextSpan(
-            text: _cursorVisible ? '|' : ' ',
+            text: _cursorVisible ? '|' : '',
             style: widget.textStyle.copyWith(
               fontSize: widget.textStyle.fontSize ?? 14,
               fontWeight: FontWeight.normal,
