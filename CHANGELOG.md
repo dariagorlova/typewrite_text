@@ -1,4 +1,4 @@
-## 0.0.3
+## 0.0.2
 
 - Minor adjustments to code formatting and the readme-file.
   
