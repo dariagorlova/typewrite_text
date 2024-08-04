@@ -13,6 +13,13 @@ const list2 = [
   "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
 ];
 
+const listGPT = [
+  'Easily animate your text',
+  'with typewriter effect',
+  "let's start",
+  'with typewrite_text package',
+];
+
 class TextPackageApp extends StatelessWidget {
   const TextPackageApp({super.key});
 
@@ -31,10 +38,25 @@ class TextPackageApp extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                /// chatgpt app style with vibration
+                Center(
+                  child: TypewriteText(
+                    linesOfText: listGPT,
+                    textStyle: TextStyle(color: Colors.teal, fontSize: 24),
+                    cursorSymbol: '●',
+                    tryToVibrate: true,
+                    forwardAnimationDuration: Duration(milliseconds: 50),
+                    reverseAnimationDuration: Duration(milliseconds: 50),
+                    cursorBlinkingDuration: Duration.zero,
+                  ),
+                ),
+                SizedBox(height: 20),
+
                 /// basic animation
                 TypewriteText(
                   linesOfText: list1,
                   textStyle: TextStyle(color: Colors.red),
+                  cursorSymbol: '|',
                 ),
                 SizedBox(height: 20),
 
@@ -47,7 +69,6 @@ class TextPackageApp extends StatelessWidget {
                       fontWeight: FontWeight.bold),
                   reverseAnimationDuration: Duration.zero,
                   beforeAnimationDuration: Duration.zero,
-                  needCursor: false,
                 ),
                 SizedBox(height: 20),
 
@@ -58,6 +79,7 @@ class TextPackageApp extends StatelessWidget {
                   forwardAnimationDuration: Duration(milliseconds: 50),
                   reverseAnimationDuration: Duration(milliseconds: 20),
                   cursorColor: Colors.red,
+                  cursorSymbol: '|',
                 ),
               ],
             ),

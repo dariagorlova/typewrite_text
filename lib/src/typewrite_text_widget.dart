@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class TypewriteText extends StatefulWidget {
   /// A typewriter text animation wrapper with customizations
@@ -11,8 +12,10 @@ class TypewriteText extends StatefulWidget {
     this.reverseAnimationDuration = const Duration(milliseconds: 100),
     this.beforeAnimationDuration = const Duration(milliseconds: 1500),
     this.afterAnimationDuration = const Duration(milliseconds: 1000),
-    this.needCursor = true,
+    this.cursorBlinkingDuration = const Duration(milliseconds: 500),
+    this.cursorSymbol,
     this.cursorColor,
+    this.tryToVibrate = false,
     super.key,
   });
 
@@ -28,17 +31,23 @@ class TypewriteText extends StatefulWidget {
   /// The rate of a symbol vanishes
   final Duration reverseAnimationDuration;
 
+  /// Cursor blinking duration. Always shown = Duration.zero
+  final Duration cursorBlinkingDuration;
+
   /// The interval before the symbols' initial appearance
   final Duration beforeAnimationDuration;
 
   /// The pause following the display of all symbols
   final Duration afterAnimationDuration;
 
-  /// Whether or not to display a cursor
-  final bool needCursor;
+  /// Any unicode symbol to be shown as a cursor
+  final String? cursorSymbol;
 
   /// Color of the animated text cursor
   final Color? cursorColor;
+
+  /// If you need a vibration while animating, set `true`. Default is `false`.
+  final bool tryToVibrate;
 
   @override
   State<TypewriteText> createState() => _TypewriteTextState();
@@ -102,7 +111,12 @@ class _TypewriteTextState extends State<TypewriteText> {
     }
 
     if (mounted && curDuration != Duration.zero) {
-      setState(() {});
+      setState(() {
+        /// if you need a small vibration and OS can do it...
+        if (widget.tryToVibrate) {
+          HapticFeedback.lightImpact();
+        }
+      });
     }
 
     _animationTimer = Timer(curDuration, () {
@@ -115,12 +129,16 @@ class _TypewriteTextState extends State<TypewriteText> {
   /// Initializes the state of the widget.
   void initState() {
     super.initState();
-    if (widget.needCursor) {
-      _timer = Timer.periodic(const Duration(milliseconds: 500), (_) {
-        setState(() {
-          _cursorVisible = !_cursorVisible;
+    if (widget.cursorSymbol != null) {
+      if (widget.cursorBlinkingDuration != Duration.zero) {
+        _timer = Timer.periodic(widget.cursorBlinkingDuration, (_) {
+          setState(() {
+            _cursorVisible = !_cursorVisible;
+          });
         });
-      });
+      } else {
+        _cursorVisible = true;
+      }
     }
     _typeWrittingAnimation();
   }
@@ -148,7 +166,9 @@ class _TypewriteTextState extends State<TypewriteText> {
         style: widget.textStyle,
         children: <TextSpan>[
           TextSpan(
-            text: _cursorVisible ? '|' : '',
+            text: _cursorVisible && widget.cursorSymbol != null
+                ? widget.cursorSymbol
+                : '',
             style: widget.textStyle.copyWith(
               fontSize: widget.textStyle.fontSize ?? 14,
               fontWeight: FontWeight.normal,
