@@ -13,8 +13,10 @@ While creating a website for myself, I decided to embellish it with a small yet 
 - Allows to set up different delays for forward and reverse animation.
 - Allows to set up different delays before animation starts and after animation ends.
 - Can be used just in "forward" mode.
+- Any unicode symbol can be used as a "cursor" symbol
 - Can be used with or without animated text cursor.
 - Allows to set up text theme.
+- Vibration while animating can be used for Android and iOS devices
 
 ## Usage
 
@@ -24,6 +26,7 @@ Basic animation. Just add text line(s) and specify text theme:
 TypewriteText(
   linesOfText: ['Hello World', 'Hello Flutter', 'Hello Dart'],
   textStyle: TextStyle(color: Colors.red),
+  cursorSymbol: '|',
 ),
 ```
 
@@ -35,7 +38,6 @@ TypewriteText(
   textStyle: TextStyle(color: Colors.blue, fontSize: 20, fontWeight: FontWeight.bold),
   reverseAnimationDuration: Duration.zero,
   beforeAnimationDuration: Duration.zero,
-  needCursor: false,
 )
 ```
 
@@ -43,13 +45,15 @@ TypewriteText(
 
 ## Documentation
 
-| Property                 | Purpose                                                         |
-| ------------------------ | --------------------------------------------------------------- |
-| **linesOfText**          | List of strings to be shown.                                    |
-| **textStyle**            | TextStyle for this strings.                                     |
-| forwardAnimationDuration | The rate of a symbol appears.                                   |
-| reverseAnimationDuration | The rate of a symbol vanishes.                                  |
-| beforeAnimationDuration  | The interval before the symbols' initial appearance.            |
-| afterAnimationDuration   | The pause following the display of all symbols.                 |
-| needCursor               | If you need an animated cursor, set `true` otherwise - `false`. |
-| cursorColor              | Color of the animated text cursor.                              |
+| Property                 | Purpose                                                                                                                                    |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| **linesOfText**          | List of strings to be shown.                                                                                                               |
+| **textStyle**            | TextStyle for this strings.                                                                                                                |
+| forwardAnimationDuration | The rate of a symbol appears.                                                                                                              |
+| reverseAnimationDuration | The rate of a symbol vanishes.                                                                                                             |
+| beforeAnimationDuration  | The interval before the symbols' initial appearance.                                                                                       |
+| afterAnimationDuration   | The pause following the display of all symbols.                                                                                            |
+| cursorBlinkingDuration   | Interval of cursor blinking (cursorSymbol != null). If Duration.zero is used, cursor will always visible                                   |
+| cursorSymbol             | Default value is **null**. This means, cursor will not be shown. Otherwise, use any unicode symbol, that will be used as a cursor symbol ( | , ●, ֍ or any other one) |
+| cursorColor              | Color of the animated text cursor.                                                                                                         |
+| tryToVibrate             | if the flag is **true**, on Android and iOS devices, animation will be accompanied by vibration. Default value - 'false'                   |

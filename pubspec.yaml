@@ -1,6 +1,6 @@
 name: typewrite_text
 description: A typewriter text animation wrapper with customizations. Supports iOS, Android, web, Windows, macOS, and Linux.
-version: 0.0.2
+version: 1.0.1
 homepage: https://dariahorlova.netlify.app
 repository: https://github.com/dariagorlova/typewrite_text.git
 issue_tracker: https://github.com/dariagorlova/typewrite_text/issues
