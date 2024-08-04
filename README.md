@@ -41,6 +41,20 @@ TypewriteText(
 )
 ```
 
+Two side animation with vibration:
+
+```dart
+TypewriteText(
+  linesOfText: ['Hello World', 'Hello Flutter', 'Hello Dart'],
+  textStyle: TextStyle(color: Colors.teal, fontSize: 24),
+  cursorSymbol: '●',
+  tryToVibrate: true, //<- use carefully if vibration is needed.
+  forwardAnimationDuration: Duration(milliseconds: 50),
+  reverseAnimationDuration: Duration(milliseconds: 50),
+  cursorBlinkingDuration: Duration.zero,
+)
+```
+
 ![](demo/package.gif)
 
 ## Documentation
