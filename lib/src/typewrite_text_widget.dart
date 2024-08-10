@@ -3,6 +3,15 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+enum VibrationType { none, light, medium, heavy }
+
+final Map<VibrationType, VoidCallback> vibrationMap = {
+  VibrationType.none: () {},
+  VibrationType.light: HapticFeedback.lightImpact,
+  VibrationType.medium: HapticFeedback.mediumImpact,
+  VibrationType.heavy: HapticFeedback.heavyImpact,
+};
+
 class TypewriteText extends StatefulWidget {
   /// A typewriter text animation wrapper with customizations
   const TypewriteText({
@@ -15,7 +24,10 @@ class TypewriteText extends StatefulWidget {
     this.cursorBlinkingDuration = const Duration(milliseconds: 500),
     this.cursorSymbol,
     this.cursorColor,
-    this.tryToVibrate = false,
+    this.tryToVibrate = VibrationType.none,
+    this.textAlign,
+    this.callback,
+    this.infiniteLoop = true,
     super.key,
   });
 
@@ -46,8 +58,19 @@ class TypewriteText extends StatefulWidget {
   /// Color of the animated text cursor
   final Color? cursorColor;
 
-  /// If you need a vibration while animating, set `true`. Default is `false`.
-  final bool tryToVibrate;
+  /// Vibration feature. Can be none, light, medium or heavy.
+  final VibrationType tryToVibrate;
+
+  /// Alignment of the text in base widget. use if output is a multiline
+  final TextAlign? textAlign;
+
+  /// callback when animation reaches beforeAnimationDuration
+  /// this means one element of linesOfText was shown and hidden.
+  /// and we reach a small gap before showing a next one element.
+  final VoidCallback? callback;
+
+  /// if true, animation will be infinite. Default: true
+  final bool infiniteLoop;
 
   @override
   State<TypewriteText> createState() => _TypewriteTextState();
@@ -107,21 +130,28 @@ class _TypewriteTextState extends State<TypewriteText> {
       /// ... or "beforeAnimation"
       if (_currentCharIndex == 0) {
         curDuration = widget.beforeAnimationDuration;
+        widget.callback?.call();
       }
     }
 
     if (mounted && curDuration != Duration.zero) {
       setState(() {
-        /// if you need a small vibration and OS can do it...
-        if (widget.tryToVibrate) {
-          HapticFeedback.lightImpact();
-        }
+        /// screen update & vibration feature
+        vibrationMap[widget.tryToVibrate]?.call();
       });
     }
 
+    /// launch timer
     _animationTimer = Timer(curDuration, () {
       _typeWrittingAnimation();
     });
+
+    if (!widget.infiniteLoop &&
+        _currentIndex == widget.linesOfText.length - 1 &&
+        _currentCharIndex == widget.linesOfText[_currentIndex].length) {
+      _animationTimer?.cancel();
+      _timer?.cancel();
+    }
   }
 
   @override
@@ -161,6 +191,7 @@ class _TypewriteTextState extends State<TypewriteText> {
         : '';
 
     return RichText(
+      textAlign: widget.textAlign ?? TextAlign.start,
       text: TextSpan(
         text: text,
         style: widget.textStyle,
