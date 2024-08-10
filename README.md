@@ -55,7 +55,7 @@ more samples in "example" folder of the package
 | beforeAnimationDuration  | The interval before the symbols' initial appearance.                                                                                                                            |
 | afterAnimationDuration   | The pause following the display of all symbols.                                                                                                                                 |
 | cursorBlinkingDuration   | Interval of cursor blinking (cursorSymbol != null). If Duration.zero is used, cursor will always visible                                                                        |
-| cursorSymbol             | Default value is **null**. This means, cursor will not be shown. Otherwise, use any unicode symbol, that will be used as a cursor symbol ( "                                    | " , "●", "֍" or any other one) |
+| cursorSymbol             | Default value is **null**. This means, cursor will not be shown. Otherwise, use any unicode symbol, that will be used as a cursor symbol ( "..." , "●", "֍" or any other one)   |
 | cursorColor              | Color of the animated text cursor.                                                                                                                                              |
 | tryToVibrate             | enum value of vibration type. Default is "none"                                                                                                                                 |
 | textAlign                | Alignment of the text in base widget. Important if output is a multiline                                                                                                        |
