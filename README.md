@@ -40,34 +40,24 @@ TypewriteText(
   beforeAnimationDuration: Duration.zero,
 )
 ```
-
-Two side animation with vibration:
-
-```dart
-TypewriteText(
-  linesOfText: ['Hello World', 'Hello Flutter', 'Hello Dart'],
-  textStyle: TextStyle(color: Colors.teal, fontSize: 24),
-  cursorSymbol: '●',
-  tryToVibrate: true, //<- use carefully if vibration is needed.
-  forwardAnimationDuration: Duration(milliseconds: 50),
-  reverseAnimationDuration: Duration(milliseconds: 50),
-  cursorBlinkingDuration: Duration.zero,
-)
-```
+more samples in "example" folder of the package
 
 ![](demo/package.gif)
 
 ## Documentation
 
-| Property                 | Purpose                                                                                                                                    |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| **linesOfText**          | List of strings to be shown.                                                                                                               |
-| **textStyle**            | TextStyle for this strings.                                                                                                                |
-| forwardAnimationDuration | The rate of a symbol appears.                                                                                                              |
-| reverseAnimationDuration | The rate of a symbol vanishes.                                                                                                             |
-| beforeAnimationDuration  | The interval before the symbols' initial appearance.                                                                                       |
-| afterAnimationDuration   | The pause following the display of all symbols.                                                                                            |
-| cursorBlinkingDuration   | Interval of cursor blinking (cursorSymbol != null). If Duration.zero is used, cursor will always visible                                   |
-| cursorSymbol             | Default value is **null**. This means, cursor will not be shown. Otherwise, use any unicode symbol, that will be used as a cursor symbol ( | , ●, ֍ or any other one) |
-| cursorColor              | Color of the animated text cursor.                                                                                                         |
-| tryToVibrate             | if the flag is **true**, on Android and iOS devices, animation will be accompanied by vibration. Default value - 'false'                   |
+| Property                 | Purpose                                                                                                                                                                         |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **linesOfText**          | List of strings to be shown.                                                                                                                                                    |
+| **textStyle**            | TextStyle for this strings.                                                                                                                                                     |
+| forwardAnimationDuration | The rate of a symbol appears.                                                                                                                                                   |
+| reverseAnimationDuration | The rate of a symbol vanishes.                                                                                                                                                  |
+| beforeAnimationDuration  | The interval before the symbols' initial appearance.                                                                                                                            |
+| afterAnimationDuration   | The pause following the display of all symbols.                                                                                                                                 |
+| cursorBlinkingDuration   | Interval of cursor blinking (cursorSymbol != null). If Duration.zero is used, cursor will always visible                                                                        |
+| cursorSymbol             | Default value is **null**. This means, cursor will not be shown. Otherwise, use any unicode symbol, that will be used as a cursor symbol ( "                                    | " , "●", "֍" or any other one) |
+| cursorColor              | Color of the animated text cursor.                                                                                                                                              |
+| tryToVibrate             | enum value of vibration type. Default is "none"                                                                                                                                 |
+| textAlign                | Alignment of the text in base widget. Important if output is a multiline                                                                                                        |
+| callback                 | Callback when animation reaches beforeAnimationDuration. This means one element of linesOfText was shown and hidden and we reach a small gap before showing a next one element. |
+| infiniteLoop             | Flag of the infinite animation. Default is "true"                                                                                                                               |
