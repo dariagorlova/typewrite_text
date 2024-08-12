@@ -41,7 +41,6 @@ class _SampleScreenState extends State<SampleScreen> {
   Widget build(BuildContext context) {
     final vibrationType =
         VibrationType.values[Random().nextInt(VibrationType.values.length)];
-    debugPrint(vibrationType.name);
     return AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         color: background[_currentIndex],

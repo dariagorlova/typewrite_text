@@ -1,3 +1,7 @@
+## 1.0.3
+
+- Small fix. All animations must be paused, when user navigates to child page.
+ 
 ## 1.0.2
 
 - Vibration flag is changed from bool to enum. Default value is "none"

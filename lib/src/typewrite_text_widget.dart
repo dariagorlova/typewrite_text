@@ -95,8 +95,18 @@ class _TypewriteTextState extends State<TypewriteText> {
   /// cursor visibility flag
   var _cursorVisible = false;
 
+  /// pause flag. used to pause the timer when TypewriteText is not on current screen
+  /// it's not enough to just cancel the timer in didChangeDependencies, cause
+  /// it may still launch it's function. so we need to check the possibility of
+  /// running _typeWrittingAnimation inside it.
+  var _isPaused = false;
+
   /// Performs the typewriting animation.
   void _typeWrittingAnimation() {
+    if (_isPaused) {
+      return;
+    }
+
     if (_reverseMode) {
       if (_currentCharIndex > 0) {
         _currentCharIndex--;
@@ -180,6 +190,25 @@ class _TypewriteTextState extends State<TypewriteText> {
     _timer?.cancel();
     _animationTimer?.cancel();
     super.dispose();
+  }
+
+  @override
+
+  /// lets stop timer if widget is not on current screen and relaunch it if it is
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    final isCurrentScreen = ModalRoute.of(context)?.isCurrent ?? false;
+    if (isCurrentScreen) {
+      if (_isPaused) {
+        _isPaused = false;
+        _typeWrittingAnimation();
+      }
+    } else {
+      _isPaused = true;
+      _animationTimer?.cancel();
+      _timer?.cancel();
+    }
   }
 
   @override
